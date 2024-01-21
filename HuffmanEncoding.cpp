@@ -22,7 +22,7 @@ int main()
     std::string input;
     std::cout << "Enter file: ";
     std::cin >> input;
-    std::ifstream input_file(input);
+    std::ifstream input_file(input, std::ios::binary);
 
     if (!input_file.is_open())
     {
@@ -78,9 +78,9 @@ int main()
         std::sort(char_pairs.begin(), char_pairs.end(), compare_by_count);
     }
     
-    for (auto i = compressed_chars.begin(); i != compressed_chars.end(); i++) {
+    /*for (auto i = compressed_chars.begin(); i != compressed_chars.end(); i++) {
         std::cout << i->first << ": " << i->second << "\n";
-    }
+    }*/
 
     std::string output = "";
 
@@ -97,8 +97,8 @@ int main()
     /*
     * Iterate through every 8 characters and write that as one byte to output and I'm not sure what to do for last character
     */
-
-    int output_byte_size = output.length()/8;
+    
+    int output_byte_size = output.length() / 8;
     char remainder = 8 - (output.length() % 8);
     if (remainder)
     {
@@ -134,6 +134,7 @@ int main()
     std::cout << "\nFinished. New file size: " << output_byte_size + 1 << " bytes";
     std::string output_file_name = input + ".monka";
     std::ofstream output_file(output_file_name, std::ios::binary);
+    std::cin;
 
     output_file.write(&output_byte_array[0], output_byte_array.size());
     output_file.close();

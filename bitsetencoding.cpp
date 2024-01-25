@@ -7,6 +7,7 @@
 #include <vector>
 #include <algorithm>
 #include <bitset>
+#include <chrono>
 #include <sys/stat.h>
 
 uint64_t get_file_size(std::string filename)
@@ -124,6 +125,7 @@ void decrypt_file() {
 }
 
 void encrypt_file() {
+    auto start = std::chrono::high_resolution_clock::now();
     std::string input_name;
     std::cout << "Enter file: ";
     std::cin >> input_name;
@@ -268,7 +270,10 @@ void encrypt_file() {
     key_output_file.write(reinterpret_cast<const char*>(char_with_key.data()), char_with_key.size() * sizeof(char_key));
     key_output_file.close();
 
-    std::cout << "Finished!\n";
+    auto end = std::chrono::high_resolution_clock::now();
+    auto duration = std::chrono::duration_cast<std::chrono::milliseconds>(end - start);
+
+    std::cout << "Time Taken: " << duration.count() <<" milliseconds\n";
     std::cin;
 }
 
